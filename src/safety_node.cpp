@@ -17,12 +17,12 @@ void Safety::odom_callback(const nav_msgs::Odometry::ConstPtr &odom_msg) {
 void Safety::scan_callback(const sensor_msgs::LaserScan::ConstPtr &scan_msg) {
     
     for (int i = 0; i < (scan_msg->ranges.size())/2; i++){  //Only take front ranging data
-        if(!std::isinf(scan_msg->ranges[i]) && !std::isnan(scan_msg->ranges[i])){
+        double obs_dist = scan_msg->ranges[i + scan_msg->ranges.size()/4];
+        if(!std::isinf(obs_dist) && !std::isnan(obs_dist)){
             // Calculate TTC
-            double TTC = scan_msg->ranges[i] / std::max(0.0, (speed * cos( i * scan_msg->angle_increment - PI/2)));
-            
+            double TTC = obs_dist / std::max(0.0, (speed * cos( i * scan_msg->angle_increment - PI/2)));
             //publish brake messages when TTC less than minimum required TTC
-            if (TTC < 0.25){
+            if (TTC < 0.23){
                 // ROS_INFO("TTC%d: %f", i, TTC);  //Used for tuning min TTC
                 brake_bool_msg.data = true;
                 brake_msg.drive.speed = 0.0;

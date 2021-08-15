@@ -1,6 +1,8 @@
 # F1Tenth-Lab1
 This is a repo for F1Tenth Lab 2 Assignment which implements Automatic Emergency Brake(AEB) using Time to Collision(TTC) Algorithm.
 
+<img src="sample_guide_video.gif"/>
+
 ## Dependeices for Running Locally
 * ROS Melodic
     * Ubuntu [click here for installation instructions](http://wiki.ros.org/melodic/Installation/Ubuntu)
