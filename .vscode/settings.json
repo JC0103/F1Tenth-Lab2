@@ -70,5 +70,9 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "bit": "cpp"
-    }
+    },
+    "python.analysis.extraPaths": [
+        "/home/jcchia/chia_jing_cheng_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
 }

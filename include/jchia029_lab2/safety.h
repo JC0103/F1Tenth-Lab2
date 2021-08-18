@@ -41,8 +41,8 @@ private:
     void odom_callback(const nav_msgs::Odometry::ConstPtr &odom_msg);
     void scan_callback(const sensor_msgs::LaserScan::ConstPtr &scan_msg);
 
-
-
+    // Publish messages function
+    void publish_brake_msg();
 };
 
 #endif

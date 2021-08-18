@@ -16,21 +16,32 @@ void Safety::odom_callback(const nav_msgs::Odometry::ConstPtr &odom_msg) {
 
 void Safety::scan_callback(const sensor_msgs::LaserScan::ConstPtr &scan_msg) {
     
-    for (int i = 0; i < (scan_msg->ranges.size())/2; i++){  //Only take front ranging data
-        double obs_dist = scan_msg->ranges[i + scan_msg->ranges.size()/4];
+    for (int i = 0; i < scan_msg->ranges.size(); i++){ 
+        double obs_dist = scan_msg->ranges[i];
         if(!std::isinf(obs_dist) && !std::isnan(obs_dist)){
+
             // Calculate TTC
-            double TTC = obs_dist / std::max(0.0, (speed * cos( i * scan_msg->angle_increment - PI/2)));
-            //publish brake messages when TTC less than minimum required TTC
-            if (TTC < 0.23){
+            double TTC = obs_dist / std::max(0.0, (speed * cos( i * scan_msg->angle_increment - PI)));
+
+            // Publish brake messages when TTC less than minimum required TTC
+            // Reverse motion
+            if (speed < 0 && TTC < abs(speed)/8.26 + 0.12){  // Reverse motion need higher TTC tolerance as the lidar is at the front part of the robot
+                publish_brake_msg();
+            }
+            //Forward motion
+            else if (speed > 0 && TTC < speed/8.26 + 0.02){  
                 // ROS_INFO("TTC%d: %f", i, TTC);  //Used for tuning min TTC
-                brake_bool_msg.data = true;
-                brake_msg.drive.speed = 0.0;
-                brake_bool_pub.publish(brake_bool_msg);
-                brake_pub.publish(brake_msg);
+                publish_brake_msg();
             }
         }
     }
+}
+
+void Safety::publish_brake_msg(){
+    brake_bool_msg.data = true;
+    brake_msg.drive.speed = 0.0;
+    brake_bool_pub.publish(brake_bool_msg);
+    brake_pub.publish(brake_msg);
 }
 
 int main(int argc, char ** argv) {

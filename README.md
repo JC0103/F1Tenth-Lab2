@@ -14,3 +14,7 @@ This is a repo for F1Tenth Lab 2 Assignment which implements Automatic Emergency
 1. Clone this repo into catkin_ws/src.
 2. Build the ROS package: `catkin build safety`.
 3. Launch it: `roslaunch safety AEB_simulation`.
+
+## Problem and Suggested modifications
+
+1. The collision during turning is still possible as the lidar sensing until TTC calculation still need a period of time. (We can slow down the speed during turning, or come out with higher TCC thersold during turning)
