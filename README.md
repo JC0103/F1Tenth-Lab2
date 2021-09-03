@@ -1,4 +1,4 @@
-# F1Tenth-Lab1
+# F1Tenth-Lab2
 This is a repo for F1Tenth Lab 2 Assignment which implements Automatic Emergency Brake(AEB) using Time to Collision(TTC) Algorithm.
 
 <img src="sample_guide_video.gif"/>
